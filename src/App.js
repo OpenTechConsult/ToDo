@@ -11,7 +11,7 @@ export default class App extends Component {
                 { action: "Buy Flowers", done: false },
                 { action: "Get Shoes", done: false },
                 { action: "Collect Tickets", done: true },
-                { action: "Get Shoes", done: false },
+                { action: "Cook Diner", done: false },
             ],
             newItemText: ""
         }
@@ -36,6 +36,18 @@ export default class App extends Component {
         }
     }
 
+    toggleTodo = (todo) => this.setState(
+        { todoItems: this.state.todoItems.map(item => item.action === todo.action ? {...item, done: !item.done} : item)}
+    )
+
+    todoTableRows = () => this.state.todoItems.map(item => 
+        <tr key={ item.action }>
+            <td>{item.action}</td>
+            <td>
+                <input type="checkbox" checked={ item.done} onChange={ () => this.toggleTodo(item) } />
+            </td>
+        </tr>);
+
     render = () =>
         <div>
             <h4 className = "bg-primary text-white text-center p-2" > 
@@ -50,7 +62,18 @@ export default class App extends Component {
                     <input className="form-control" value={ this.state.newItemText } 
                             onChange={this.updateNewTextValue}/>
                     <button className="btn btn-primary mt-1" onClick={ this.createNewTodo }>Add</button>
-
+ 
+                    <table className="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Description</th>
+                                <th>Done</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            { this.todoTableRows() }
+                        </tbody>
+                    </table>
                 </div> 
             </div> 
         </div>
